@@ -15,6 +15,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import React, { useState } from "react";
+import { createJobApplication } from "@/lib/actions/job-applications";
 
 
 interface CreateJobApplicationDialogProps {
@@ -40,7 +41,30 @@ export default function CreateJobApplicationDialog({
     const [open, setOpen] = useState<boolean>(false);
     const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
 
+        try {
+            const result = await createJobApplication({
+            ...formData,
+            columnId,
+            boardId,
+            tags: formData.tags
+            .split(",")
+            .map((tag) => tag.trim())
+            .filter((tag) => tag.length > 0),
+        });
+
+        if (!result.error) {
+            setFormData(INITIAL_FORM_DATA);
+            setOpen(false);
+        } else {
+            console.error("Failed to create job: ", result.error);
+        }
+        } catch (err) {
+        console.error(err);
+        }
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -58,7 +82,7 @@ export default function CreateJobApplicationDialog({
         <DialogTitle>Add Job Application</DialogTitle>
         <DialogDescription>Track a new job application</DialogDescription>
         </DialogHeader>
-        <form className="space-y-4" >
+        <form className="space-y-4" onSubmit={handleSubmit} >
         <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
