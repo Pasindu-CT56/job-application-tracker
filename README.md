@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+# Job Application Tracker
+
+A work-in-progress Kanban-style job application tracker built with Next.js, React, Better Auth, MongoDB, and Mongoose.
+
+## Features
+
+- Email and password sign-up and sign-in.
+- Automatic creation of a personal `Job Hunt` board after registration.
+- Default workflow columns: Wish List, Applied, Interviewing, Offer, and Rejected.
+- Add applications with company, position, location, salary, URL, tags, description, and notes.
+- Persist boards, columns, and applications in MongoDB.
+- View applications in a dashboard Kanban layout.
+- Protect the dashboard and application creation flow with the authenticated session.
+
+## Tech Stack
+
+- Next.js 16 App Router
+- React 19 and TypeScript
+- Better Auth with the MongoDB adapter
+- MongoDB and Mongoose
+- Tailwind CSS
+- Radix UI and Lucide React
+
+## Prerequisites
+
+- Node.js 20 or newer
+- A MongoDB database, local or hosted
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+```
+
+Create a `.env.local` file in the project root:
+
+```env
+MONGODB_URI=mongodb://127.0.0.1:27017/job-application-tracker
+```
+
+For MongoDB Atlas, replace the value with your Atlas connection string.
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000), create an account, and continue to the dashboard.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev      # Start the development server
+npm run build    # Create a production build
+npm run start    # Start the production server
+npm run lint     # Run ESLint
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+app/
+	api/auth/       Better Auth API route
+	dashboard/      Protected Kanban dashboard
+	sign-in/        Sign-in page
+	sign-up/        Registration page
+components/       Dashboard, forms, navigation, and UI components
+lib/
+	actions/        Server actions for application changes
+	auth/           Better Auth setup and client helpers
+	models/         Mongoose models for boards, columns, and applications
+	db.ts           Cached MongoDB connection
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Current Status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The project is not finished yet. The authentication flow, initial board creation, dashboard loading, and new application persistence are implemented.
 
-## Deploy on Vercel
+### In Progress
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Connect edit, move, delete, and column-delete controls to server actions.
+- Add validation and user-facing error messages to the application form.
+- Improve loading, empty, and error states.
+- Add tests for authentication, board initialization, and application persistence.
